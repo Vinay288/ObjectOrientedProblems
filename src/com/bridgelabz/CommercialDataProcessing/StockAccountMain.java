@@ -11,6 +11,7 @@ public class StockAccountMain {
 		StockAccount stockAccount = new StockAccount(numberOfCompany);
 		stockAccount.buy(10, "idea");
 		stockAccount.sell(5, "idea");
+		stockAccount.buy(20, "tesla");
 		stockAccount.printReport();
 
 	}
