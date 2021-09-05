@@ -7,6 +7,7 @@ public class StockAccount implements StockAccountIf {
 	private CompanyShares companySharesArray[];
 	private int totalNumberOfComapny = 0;
 	private CompanyShares companyShares;
+
 	public StockAccount(int numberOfCompany) {
 		companySharesArray = new CompanyShares[numberOfCompany];
 	}
@@ -57,9 +58,9 @@ public class StockAccount implements StockAccountIf {
 
 	@Override
 	public double valueOf() {
-		double totalAmount=0f;
-		for(int i=0;i<totalNumberOfComapny;i++) {
-			totalAmount+=companySharesArray[i].getNumberOfShares();
+		double totalAmount = 0f;
+		for (int i = 0; i < totalNumberOfComapny; i++) {
+			totalAmount += companySharesArray[i].getNumberOfShares();
 		}
 		return totalAmount;
 	}
