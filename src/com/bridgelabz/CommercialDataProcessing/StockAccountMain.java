@@ -12,6 +12,7 @@ public class StockAccountMain {
 		stockAccount.buy(10, "idea");
 		stockAccount.sell(5, "idea");
 		stockAccount.buy(20, "tesla");
+		stockAccount.sell(2, "idea");
 		stockAccount.printReport();
 
 	}
