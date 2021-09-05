@@ -30,5 +30,9 @@ public Date getTransctionTime() {
 public void setTransctionTime(Date transctionTime) {
 	this.transctionTime = transctionTime;
 }
+@Override
+public String toString() {
+	return getStockSymbol();
+}
 
 }
