@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.bridgelabz.linkedlistproblem.MyLinkedList;
 import com.bridgelabz.linkedlistproblem.Node;
+import com.bridgelabz.stackandqueueproblem.MyStack;
 
 public class StockAccount implements StockAccountIf {
 
@@ -11,9 +12,12 @@ public class StockAccount implements StockAccountIf {
 	private int totalNumberOfComapny = 0;
 	private CompanyShares companyShares;
 	private Node<CompanyShares> newNode;
+	private com.bridgelabz.stackandqueueproblem.Node<String> stackNode;
+	private MyStack<String> myStack;
 
 	public StockAccount(int numberOfCompany) {
 		myLinkedList = new MyLinkedList<CompanyShares>();
+		myStack= new MyStack<String>();
 	}
 
 	@Override
@@ -29,6 +33,8 @@ public class StockAccount implements StockAccountIf {
 		}
 		Node<CompanyShares> newNode = new Node<CompanyShares>(new CompanyShares(symbol, amount, new Date()));
 		myLinkedList.append(newNode);
+		stackNode = new com.bridgelabz.stackandqueueproblem.Node<String>(symbol);
+		myStack.push(stackNode);
 	}
 
 	@Override
@@ -41,6 +47,8 @@ public class StockAccount implements StockAccountIf {
 						: 0;
 				newNode.getKey().setNumberOfShares(totalAmount);
 				newNode.getKey().setTransctionTime(new Date());
+				stackNode = new com.bridgelabz.stackandqueueproblem.Node<String>(symbol);
+				myStack.push(stackNode);
 				return;
 			}
 			newNode = (Node<CompanyShares>) newNode.getNext();
@@ -68,6 +76,8 @@ public class StockAccount implements StockAccountIf {
 			newNode = (Node<CompanyShares>) newNode.getNext();
 		}
 		System.out.println("total is " + total);
+		System.out.println("transaction details are as follows");
+		myStack.printMyNodes();
 	}
 
 	@Override
