@@ -2,42 +2,50 @@ package com.bridgelabz.CommercialDataProcessing;
 
 import java.util.Date;
 
+import com.bridgelabz.linkedlistproblem.MyLinkedList;
+import com.bridgelabz.linkedlistproblem.Node;
+
 public class StockAccount implements StockAccountIf {
 
-	private CompanyShares companySharesArray[];
+	private MyLinkedList<CompanyShares> myLinkedList;
 	private int totalNumberOfComapny = 0;
 	private CompanyShares companyShares;
+	private Node<CompanyShares> newNode;
 
 	public StockAccount(int numberOfCompany) {
-		companySharesArray = new CompanyShares[numberOfCompany];
+		myLinkedList = new MyLinkedList<CompanyShares>();
 	}
 
 	@Override
 	public void buy(int amount, String symbol) {
-		for (int i = 0; i < this.totalNumberOfComapny; i++) {
-			if (companySharesArray[i].getStockSymbol().equals(symbol)) {
-				companySharesArray[i].setNumberOfShares(companySharesArray[i].getNumberOfShares() + amount);
-				companySharesArray[i].setTransctionTime(new Date());
+		newNode = (Node) myLinkedList.getHead();
+		while (newNode != null) {
+			if (newNode.getKey().getStockSymbol().equals(symbol)) {
+				newNode.getKey().setNumberOfShares(newNode.getKey().getNumberOfShares() + amount);
+				newNode.getKey().setTransctionTime(new Date());
 				return;
 			}
+			newNode = (Node<CompanyShares>) newNode.getNext();
 		}
-		companySharesArray[totalNumberOfComapny++] = new CompanyShares(symbol, amount, new Date());
+		Node<CompanyShares> newNode = new Node<CompanyShares>(new CompanyShares(symbol, amount, new Date()));
+		myLinkedList.append(newNode);
 	}
 
 	@Override
 	public void sell(int amount, String symbol) {
-		for (int i = 0; i < this.totalNumberOfComapny; i++) {
-			if (companySharesArray[i].getStockSymbol().equals(symbol)) {
-				if ((companySharesArray[i].getNumberOfShares() - amount) < 0) {
-					System.out.println("Sorry you own less shares");
-					return;
-				}
-				companySharesArray[i].setNumberOfShares(companySharesArray[i].getNumberOfShares() - amount);
-				companySharesArray[i].setTransctionTime(new Date());
+		newNode = (Node) myLinkedList.getHead();
+		while (newNode != null) {
+			if (newNode.getKey().getStockSymbol().equals(symbol)) {
+				float totalAmount = (newNode.getKey().getNumberOfShares() + amount) > 0
+						? newNode.getKey().getNumberOfShares() - amount
+						: 0;
+				newNode.getKey().setNumberOfShares(totalAmount);
+				newNode.getKey().setTransctionTime(new Date());
 				return;
 			}
+			newNode = (Node<CompanyShares>) newNode.getNext();
 		}
-		System.out.println("ypu dont own any shares of " + symbol);
+		System.out.println("not found");
 	}
 
 	@Override
@@ -48,19 +56,26 @@ public class StockAccount implements StockAccountIf {
 
 	@Override
 	public void printReport() {
-		for (int i = 0; i < totalNumberOfComapny; i++) {
-			System.out.println("company Symbol " + companySharesArray[i].getStockSymbol());
-			System.out.println("company shares " + companySharesArray[i].getNumberOfShares());
-			System.out.println("recent tranaction info " + companySharesArray[i].getTransctionTime());
+		newNode = (Node) myLinkedList.getHead();
+		float total = 0f;
+		myLinkedList.printMyNodes();
+		System.out.println("");
+		while (newNode != null) {
+			System.out.println("company Symbol " + newNode.getKey().getStockSymbol());
+			System.out.println("company shares " + newNode.getKey().getNumberOfShares());
+			total += newNode.getKey().getNumberOfShares();
+			System.out.println("recent tranaction info " + newNode.getKey().getTransctionTime());
+			newNode = (Node<CompanyShares>) newNode.getNext();
 		}
-
+		System.out.println("total is " + total);
 	}
 
 	@Override
 	public double valueOf() {
 		double totalAmount = 0f;
-		for (int i = 0; i < totalNumberOfComapny; i++) {
-			totalAmount += companySharesArray[i].getNumberOfShares();
+		newNode = (Node) myLinkedList.getHead();
+		while (newNode != null) {
+			totalAmount += newNode.getKey().getNumberOfShares();
 		}
 		return totalAmount;
 	}
