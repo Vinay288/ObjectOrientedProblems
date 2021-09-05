@@ -26,4 +26,19 @@ public class InventoryImpl implements InventoryIf {
 
 	}
 
+	@Override
+	public void valueOf(InventoryManager manager) {
+		InventoryFactory[] factoryArray = manager.getFactory();
+		for (int i = 0; i < factoryArray.length; i++) {
+			valueOf(factoryArray[i]);
+		}
+	}
+
+	@Override
+	public void valueOf(InventoryFactory factory) {
+		Item[] itemArray = factory.getItemArray();
+		valueOf(itemArray);
+
+	}
+
 }
