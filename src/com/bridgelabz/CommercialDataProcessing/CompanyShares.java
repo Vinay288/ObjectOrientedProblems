@@ -11,6 +11,7 @@ public CompanyShares(String stockSymbol,float numberOfShares,Date transctionTime
 	this.numberOfShares=numberOfShares;
 	this.transctionTime=transctionTime;
 }
+
 public String getStockSymbol() {
 	return stockSymbol;
 }
