@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.bridgelabz.linkedlistproblem.MyLinkedList;
 import com.bridgelabz.linkedlistproblem.Node;
+import com.bridgelabz.stackandqueueproblem.MyQueue;
 import com.bridgelabz.stackandqueueproblem.MyStack;
 
 public class StockAccount implements StockAccountIf {
@@ -14,10 +15,13 @@ public class StockAccount implements StockAccountIf {
 	private Node<CompanyShares> newNode;
 	private com.bridgelabz.stackandqueueproblem.Node<String> stackNode;
 	private MyStack<String> myStack;
+	private com.bridgelabz.stackandqueueproblem.Node<Date> queueNode;
+	private MyQueue<Date> myQueue;
 
 	public StockAccount(int numberOfCompany) {
 		myLinkedList = new MyLinkedList<CompanyShares>();
-		myStack= new MyStack<String>();
+		myStack = new MyStack<String>();
+		myQueue=new MyQueue<Date>();
 	}
 
 	@Override
@@ -27,6 +31,10 @@ public class StockAccount implements StockAccountIf {
 			if (newNode.getKey().getStockSymbol().equals(symbol)) {
 				newNode.getKey().setNumberOfShares(newNode.getKey().getNumberOfShares() + amount);
 				newNode.getKey().setTransctionTime(new Date());
+				stackNode = new com.bridgelabz.stackandqueueproblem.Node<String>(symbol);
+				myStack.push(stackNode);
+				queueNode= new com.bridgelabz.stackandqueueproblem.Node<Date>(new Date());
+				myQueue.addRear(queueNode);
 				return;
 			}
 			newNode = (Node<CompanyShares>) newNode.getNext();
@@ -35,6 +43,8 @@ public class StockAccount implements StockAccountIf {
 		myLinkedList.append(newNode);
 		stackNode = new com.bridgelabz.stackandqueueproblem.Node<String>(symbol);
 		myStack.push(stackNode);
+		queueNode= new com.bridgelabz.stackandqueueproblem.Node<Date>(new Date());
+		myQueue.addRear(queueNode);
 	}
 
 	@Override
@@ -49,6 +59,8 @@ public class StockAccount implements StockAccountIf {
 				newNode.getKey().setTransctionTime(new Date());
 				stackNode = new com.bridgelabz.stackandqueueproblem.Node<String>(symbol);
 				myStack.push(stackNode);
+				queueNode= new com.bridgelabz.stackandqueueproblem.Node<Date>(new Date());
+				myQueue.addRear(queueNode);
 				return;
 			}
 			newNode = (Node<CompanyShares>) newNode.getNext();
@@ -78,6 +90,7 @@ public class StockAccount implements StockAccountIf {
 		System.out.println("total is " + total);
 		System.out.println("transaction details are as follows");
 		myStack.printMyNodes();
+		myQueue.printMyNodes();
 	}
 
 	@Override
